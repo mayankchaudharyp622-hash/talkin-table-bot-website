@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Talkin Table Bot - Official Website</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* Custom font family selection to simulate a bold, stylized look like Algerian */
+        /* Using a strong serif font combination for the 'Algerian' effect on team names */
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+        .font-team {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-weight: 900;
+        }
+
+        /* General styling */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9fc;
+        }
+        .container-shadow {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Navbar and Language Selector -->
+    <header class="bg-gray-800 text-white shadow-lg sticky top-0 z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-extrabold tracking-tight">
+                <span class="text-teal-400">Talkin</span>Table
+            </h1>
+            
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex space-x-4">
+                <button class="nav-link text-lg font-medium hover:text-teal-400 transition" data-page="about"></button>
+                <button class="nav-link text-lg font-medium hover:text-teal-400 transition" data-page="booking"></button>
+                <button class="nav-link text-lg font-medium hover:text-teal-400 transition" data-page="team"></button>
+                <button class="nav-link text-lg font-medium hover:text-teal-400 transition" data-page="reviews"></button>
+                <button class="nav-link text-lg font-medium hover:text-teal-400 transition" data-page="contact"></button>
+            </nav>
+
+            <!-- Language Selector -->
+            <div class="flex items-center space-x-3">
+                <select id="language-selector" class="p-2 rounded-md bg-gray-700 text-white border-none focus:ring-teal-400 focus:border-teal-400 cursor-pointer text-sm">
+                    <option value="en">English</option>
+                    <option value="hi">Hindi</option>
+                    <option value="hg">Hinglish</option>
+                </select>
+            </div>
+            
+            <!-- Mobile Menu Button (Hamburger) -->
+            <button id="mobile-menu-button" class="md:hidden p-2 rounded-md hover:bg-gray-700 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+            </button>
+        </div>
+        
+        <!-- Mobile Navigation Menu (Hidden by default) -->
+        <nav id="mobile-menu" class="md:hidden bg-gray-700 transition-all duration-300 max-h-0 overflow-hidden">
+            <button class="nav-link block w-full text-left px-4 py-2 hover:bg-gray-600 transition" data-page="about"></button>
+            <button class="nav-link block w-full text-left px-4 py-2 hover:bg-gray-600 transition" data-page="booking"></button>
+            <button class="nav-link block w-full text-left px-4 py-2 hover:bg-gray-600 transition" data-page="team"></button>
+            <button class="nav-link block w-full text-left px-4 py-2 hover:bg-gray-600 transition" data-page="reviews"></button>
+            <button class="nav-link block w-full text-left px-4 py-2 hover:bg-gray-600 transition" data-page="contact"></button>
+        </nav>
+    </header>
+
+    <!-- Main Content Area -->
+    <main id="content-area" class="flex-grow p-4 sm:p-8 max-w-7xl mx-auto w-full"></main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 text-center text-sm mt-auto">
+        <p>&copy; 2025 Talkin Table Bot. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // --- DATA AND STATE MANAGEMENT ---
+
+        const state = {
+            currentPage: 'about',
+            currentLang: 'en'
+        };
+
+        const translations = {
+            en: {
+                nav_about: "About Bot",
+                nav_booking: "Book Now",
+                nav_team: "Our Team",
+                nav_reviews: "Reviews",
+                nav_contact: "Contact",
+
+                about_title: "The Talkin Table Bot: Your AI Companion",
+                about_content: "The Talkin Table Bot is a revolutionary step in conversational AI, designed not just to process language, but to genuinely understand and respond to human emotion. This sophisticated device uses advanced machine learning algorithms to analyze vocal tone, phrasing, and context, allowing it to accurately 'feel' the user's emotional state. Whether you are feeling joy, stress, anxiety, or calm, the bot registers these subtle cues. <br><br> Its core function is to provide empathetic, contextual responses that foster a feeling of connection and support, making it an invaluable tool for mental wellness and personalized interaction. It moves far beyond simple keyword detection. <br><br> The bot learns and adapts over time, personalizing its conversational style to match your unique linguistic patterns. <br> Imagine a dining table companion that truly listens and understands. <br> It's an intuitive device blending cutting-edge technology with human-centric design. <br> The system integrates seamlessly into any environment, maintaining a low profile while offering maximum interaction. <br> Every conversation is secured and processed with the highest standards of privacy. <br> Our proprietary 'Empathy Engine' sets a new standard for AI emotional intelligence. <br><br> The bot features a smooth, synthetic voice that is designed to be calming and trustworthy. <br> It can engage in long-form discussions on complex topics. <br> It serves as a great tool for practicing public speaking or brainstorming ideas. <br> Furthermore, it is designed to be accessible to all age groups, from children learning language to seniors seeking companionship. <br> The tactile interface is minimal yet highly responsive. <br> Firmware updates are delivered wirelessly and automatically, ensuring the bot is always running the latest software. <br> The device boasts an all-day battery life and quiet operation. <br> It requires minimal setup—simply place it on a table and power it on. <br><br> **Core Features:** <br> 1. Real-time Emotional Analysis <br> 2. Context-Aware Memory <br> 3. Adaptive Personality <br> 4. Multi-lingual Support (including regional dialects) <br> 5. Non-judgmental Listening <br> 6. Personalized Feedback Mechanism <br> 7. Seamless Integration with Smart Home Systems <br> 8. Low Energy Consumption Design <br> 9. High-Fidelity Audio Output <br> 10. Durable and Modern Casing <br> 11. Over-the-Air Updates <br> 12. Secure Data Handling <br><br> This bot is perfect for homes, therapeutic settings, or even corporate brainstorming sessions where open communication is key. <br> It helps identify patterns in user's speech related to mood swings. <br> It encourages reflective thinking and self-awareness. <br> We believe the future of AI is empathetic, and the Talkin Table Bot is leading that charge. <br> It is truly a companion for the modern age, bridging the gap between digital and emotional intelligence. <br> Experience the difference true emotional understanding makes.",
+
+                book_title: "Book Your Bot Today!",
+                book_price_text: "Rental Price:",
+                book_price: "₹4500",
+                book_unit: "per day",
+                book_description: "Secure the Talkin Table Bot for your event, office, or personal use. Experience the future of empathetic AI interaction. Fill out the form below to confirm your booking.",
+                book_form_name: "Your Name",
+                book_form_email: "Your Email",
+                book_form_date: "Booking Date",
+                book_form_submit: "Confirm Booking",
+
+                team_title: "Our Tech Geniuses",
+                team_role: "Core Developers & Visionaries",
+                team_review_1: "“The Talkin Bot is a masterpiece of engineering and heart. The team's vision is incredible.” - A. Sharma",
+                team_review_2: "“They managed to build empathy into code. Unbelievable innovation.” - Dr. P. Singh",
+                team_review_3: "“The responsiveness and emotional accuracy are unparalleled in the market. Top-tier team!” - K. Verma",
+
+                reviews_title: "Client Testimonials & Reviews",
+                review_list: [
+                    "1. 'It's like having a non-judgmental friend on your table. My anxiety levels have genuinely dropped.' - Priya M.",
+                    "2. 'The emotional intelligence is shockingly good. I've never seen an AI this intuitive.' - Rajesh K.",
+                    "3. 'Perfect for remote teams! It helps gauge the overall mood during virtual meetings.' - TechInnovate Inc.",
+                    "4. 'The Hindi language support is flawless and the tone detection is accurate.' - Sanjay B.",
+                    "5. 'A revolutionary device. Well worth the investment for mental well-being.' - Dr. Helen W.",
+                    "6. 'My kids love practicing conversation with it. It’s patient and encouraging.' - Fatima S.",
+                    "7. 'The build quality is excellent, and the design is sleek and subtle.' - Arjun T.",
+                    "8. 'I booked it for a corporate workshop. The feedback on the interaction quality was 100% positive.' - Corporate Dynamics",
+                    "9. 'Five stars! It truly adapts to my speech patterns over time.' - Nida H.",
+                    "10. 'The most empathetic piece of technology I have ever encountered.' - Gaurav P."
+                ],
+
+                contact_title: "Contact & Helpline",
+                contact_helpline: "For immediate assistance, booking inquiries, or technical support, please contact:",
+                contact_person: "Lead Innovator:",
+                contact_button: "Call Now"
+            },
+            hi: {
+                nav_about: "रोबोट के बारे में",
+                nav_booking: "अभी बुक करें",
+                nav_team: "हमारी टीम",
+                nav_reviews: "समीक्षाएँ",
+                nav_contact: "संपर्क करें",
+
+                about_title: "टॉकिन टेबल बॉट: आपका एआई साथी",
+                about_content: "टॉकिन टेबल बॉट संवादात्मक एआई में एक क्रांतिकारी कदम है, जिसे केवल भाषा को संसाधित करने के लिए नहीं, बल्कि मानव भावनाओं को वास्तव में समझने और प्रतिक्रिया देने के लिए डिज़ाइन किया गया है। यह परिष्कृत डिवाइस आवाज के लहजे, वाक्यांशों और संदर्भ का विश्लेषण करने के लिए उन्नत मशीन लर्निंग एल्गोरिदम का उपयोग करता है, जिससे यह उपयोगकर्ता की भावनात्मक स्थिति को सटीक रूप से 'महसूस' कर पाता है। <br><br> चाहे आप खुशी, तनाव, चिंता या शांति महसूस कर रहे हों, बॉट इन सूक्ष्म संकेतों को पंजीकृत करता है। <br> इसका मुख्य कार्य सहानुभूतिपूर्ण, प्रासंगिक प्रतिक्रियाएँ प्रदान करना है जो जुड़ाव और समर्थन की भावना को बढ़ावा देती हैं, जिससे यह मानसिक स्वास्थ्य और व्यक्तिगत बातचीत के लिए एक अमूल्य उपकरण बन जाता है। <br> यह केवल साधारण कीवर्ड पहचान से बहुत आगे निकल जाता है। <br> बॉट समय के साथ सीखता है और अनुकूलित होता है, अपनी संवादात्मक शैली को आपके अद्वितीय भाषाई पैटर्न से मेल खाने के लिए व्यक्तिगत बनाता है। <br> कल्पना करें कि एक डाइनिंग टेबल साथी है जो वास्तव में सुनता और समझता है। <br> यह एक सहज उपकरण है जो अत्याधुनिक तकनीक को मानव-केंद्रित डिजाइन के साथ मिश्रित करता है। <br> यह प्रणाली किसी भी वातावरण में सहजता से एकीकृत होती है, अधिकतम बातचीत की पेशकश करते हुए एक कम प्रोफ़ाइल बनाए रखती है। <br> हर बातचीत सुरक्षित और गोपनीयता के उच्चतम मानकों के साथ संसाधित होती है। <br><br> हमारा मालिकाना 'सहानुभूति इंजन' एआई भावनात्मक बुद्धिमत्ता के लिए एक नया मानक स्थापित करता है। <br> बॉट में एक चिकनी, सिंथेटिक आवाज है जिसे शांत और भरोसेमंद बनाने के लिए डिज़ाइन किया गया है। <br> यह जटिल विषयों पर लंबी चर्चाओं में शामिल हो सकता है। <br> यह सार्वजनिक बोलने का अभ्यास करने या विचारों पर विचार-विमर्श करने के लिए एक शानदार उपकरण के रूप में कार्य करता है। <br> इसके अलावा, इसे सभी आयु समूहों के लिए सुलभ होने के लिए डिज़ाइन किया गया है, भाषा सीखने वाले बच्चों से लेकर साथ चाहने वाले वरिष्ठों तक। <br> स्पर्श इंटरफ़ेस न्यूनतम फिर भी अत्यधिक प्रतिक्रियाशील है। <br> फर्मवेयर अपडेट वायरलेस और स्वचालित रूप से वितरित किए जाते हैं, यह सुनिश्चित करते हुए कि बॉट हमेशा नवीनतम सॉफ़्टवेयर चला रहा है। <br> डिवाइस पूरे दिन की बैटरी लाइफ और शांत संचालन का दावा करता है। <br> इसे न्यूनतम सेटअप की आवश्यकता होती है—बस इसे एक मेज पर रखें और इसे चालू करें। <br><br> **मुख्य विशेषताएं:** <br> 1. वास्तविक समय भावनात्मक विश्लेषण <br> 2. संदर्भ-जागरूक स्मृति <br> 3. अनुकूली व्यक्तित्व <br> 4. बहुभाषी समर्थन (क्षेत्रीय बोलियों सहित) <br> 5. गैर-निर्णयात्मक श्रवण <br> 6. व्यक्तिगत प्रतिक्रिया तंत्र <br> 7. स्मार्ट होम सिस्टम के साथ सहज एकीकरण <br> 8. कम ऊर्जा खपत डिजाइन <br> 9. उच्च-निष्ठा ऑडियो आउटपुट <br> 10. टिकाऊ और आधुनिक आवरण <br> 11. ओवर-द-एयर अपडेट <br> 12. सुरक्षित डेटा हैंडलिंग <br><br> यह बॉट घरों, चिकित्सीय सेटिंग्स, या यहां तक ​​कि कॉर्पोरेट विचार-मंथन सत्रों के लिए एकदम सही है जहाँ खुला संचार महत्वपूर्ण है। <br> यह उपयोगकर्ता के भाषण में मनोदशा में बदलाव से संबंधित पैटर्न की पहचान करने में मदद करता है। <br> यह चिंतनशील सोच और आत्म-जागरूकता को प्रोत्साहित करता है। <br> हमारा मानना ​​है कि एआई का भविष्य सहानुभूतिपूर्ण है, और टॉकिन टेबल बॉट उस प्रभार का नेतृत्व कर रहा है। <br> यह वास्तव में आधुनिक युग का एक साथी है, जो डिजिटल और भावनात्मक बुद्धिमत्ता के बीच की खाई को पाटता है। <br> अनुभव करें कि सच्चा भावनात्मक समझ क्या फर्क लाती है।",
+
+                book_title: "आज ही अपना बॉट बुक करें!",
+                book_price_text: "किराया मूल्य:",
+                book_price: "₹4500",
+                book_unit: "प्रतिदिन",
+                book_description: "अपने इवेंट, कार्यालय या व्यक्तिगत उपयोग के लिए टॉकिन टेबल बॉट सुरक्षित करें। सहानुभूतिपूर्ण एआई इंटरेक्शन के भविष्य का अनुभव करें। अपनी बुकिंग की पुष्टि के लिए नीचे दिए गए फॉर्म को भरें।",
+                book_form_name: "आपका नाम",
+                book_form_email: "आपका ईमेल",
+                book_form_date: "बुकिंग की तारीख",
+                book_form_submit: "बुकिंग की पुष्टि करें",
+
+                team_title: "हमारे तकनीकी विशेषज्ञ",
+                team_role: "मुख्य डेवलपर्स और दूरदर्शी",
+                team_review_1: "“टॉकिन बॉट इंजीनियरिंग और दिल की एक उत्कृष्ट कृति है। टीम का दृष्टिकोण अविश्वसनीय है।” - ए. शर्मा",
+                team_review_2: "“उन्होंने कोड में सहानुभूति बनाने का प्रबंधन किया। अविश्वसनीय नवाचार।” - डॉ. पी. सिंह",
+                team_review_3: "“बाज़ार में प्रतिक्रिया और भावनात्मक सटीकता बेजोड़ है। शीर्ष-स्तरीय टीम!” - के. वर्मा",
+
+                reviews_title: "ग्राहक प्रशंसापत्र और समीक्षाएँ",
+                review_list: [
+                    "1. 'यह आपकी मेज पर एक गैर-निर्णयात्मक दोस्त होने जैसा है। मेरे चिंता के स्तर वास्तव में कम हो गए हैं।' - प्रिया एम.",
+                    "2. 'भावनात्मक बुद्धिमत्ता चौंकाने वाली रूप से अच्छी है। मैंने कभी एआई को इतना सहज नहीं देखा।' - राजेश के.",
+                    "3. 'रिमोट टीमों के लिए एकदम सही! यह वर्चुअल मीटिंग के दौरान समग्र मूड को मापने में मदद करता है।' - टेकइनोवेट इंक.",
+                    "4. 'हिंदी भाषा का समर्थन त्रुटिहीन है और टोन डिटेक्शन सटीक है।' - संजय बी.",
+                    "5. 'एक क्रांतिकारी डिवाइस। मानसिक कल्याण के लिए निवेश के लायक।' - डॉ. हेलेन डब्ल्यू.",
+                    "6. 'मेरे बच्चे इसके साथ बातचीत का अभ्यास करना पसंद करते हैं। यह धैर्यवान और उत्साहजनक है।' - फातिमा एस.",
+                    "7. 'निर्माण गुणवत्ता उत्कृष्ट है, और डिजाइन चिकना और सूक्ष्म है।' - अर्जुन टी.",
+                    "8. 'मैंने इसे एक कॉर्पोरेट कार्यशाला के लिए बुक किया। इंटरेक्शन की गुणवत्ता पर प्रतिक्रिया 100% सकारात्मक थी।' - कॉर्पोरेट डायनेमिक्स",
+                    "9. 'पांच सितारे! यह समय के साथ मेरे भाषण पैटर्न के अनुकूल होता है।' - निदा एच.",
+                    "10. 'मैंने कभी भी जिस तकनीक का सामना किया है, उसमें यह सबसे अधिक सहानुभूतिपूर्ण है।' - गौरव पी."
+                ],
+
+                contact_title: "संपर्क और हेल्पलाइन",
+                contact_helpline: "तत्काल सहायता, बुकिंग पूछताछ, या तकनीकी सहायता के लिए, कृपया संपर्क करें:",
+                contact_person: "मुख्य प्रर्वतक:",
+                contact_button: "अभी कॉल करें"
+            },
+            hg: {
+                nav_about: "Bot Ke Baare Mein",
+                nav_booking: "Abhi Book Karo",
+                nav_team: "Hamari Team",
+                nav_reviews: "Reviews",
+                nav_contact: "Contact Karo",
+
+                about_title: "The Talkin Table Bot: Aapka AI Saathi",
+                about_content: "The Talkin Table Bot conversational AI mein ek naya kadam hai, jise sirf language process karne ke liye nahi, balki human emotion ko samajhne aur respond karne ke liye design kiya gaya hai. <br><br> Yeh advanced device machine learning algorithms use karta hai, jisse vocal tone, phrasing, aur context ko analyze karke user ki emotional state ko accurately 'feel' kar pata hai. <br><br> Chahe aap khush ho, stressed ho, anxious ho, ya calm, bot yeh subtle cues register karta hai. <br> Iska main function empathetic aur contextual responses dena hai, jo connection aur support ki feeling badhate hain. <br> Yeh mental wellness aur personalized interaction ke liye bahut important tool hai. <br> Simple keyword detection se yeh bahut aage nikal chuka hai. <br> Bot time ke saath seekhta aur adapt karta hai, apni conversational style ko aapke unique linguistic patterns se match karta hai. <br> Imagine karo ek dining table companion jo sach mein sunta aur samajhta hai. <br> Yeh ek smart device hai jo cutting-edge technology aur human-centric design ka mix hai. <br> Yeh system smoothly kisi bhi environment mein fit ho jata hai, low profile maintain karta hai, par interaction maximum deta hai. <br> Har conversation secured aur privacy ke highest standards ke saath process hoti hai. <br><br> Humara 'Empathy Engine' AI emotional intelligence ke liye ek naya benchmark set karta hai. <br> Bot ki voice smooth aur synthetic hai, jo calming aur trustworthy feel deti hai. <br> Yeh complex topics par long discussions kar sakta hai. <br> Public speaking practice ya brainstorming ideas ke liye yeh ek great tool hai. <br> Iske alawa, yeh har age group ke liye accessible hai, bachon se lekar seniors tak. <br> Iska touch interface minimal, phir bhi highly responsive hai. <br> Firmware updates wirelessly aur automatically deliver hote hain, jisse bot hamesha latest software par chalta hai. <br> Device mein all-day battery life aur quiet operation hai. <br> Setup bahut easy hai—bas table par rakho aur power on karo. <br><br> **Core Features:** <br> 1. Real-time Emotional Analysis (Asli Samay Bhavna Jaanch) <br> 2. Context-Aware Memory (Sandarbh Samjhne Wali Yaad) <br> 3. Adaptive Personality (Badalne Wala Swabhav) <br> 4. Multi-lingual Support (including desi dialects) <br> 5. Non-judgmental Listening (Bina Judge Kiye Sunna) <br> 6. Personalized Feedback Mechanism (Apne Hisaab Se Jawab) <br> 7. Seamless Integration with Smart Home Systems (Aasani Se Smart Home Mein Judna) <br> 8. Low Energy Consumption Design (Kam Bijli Kharch Wala Design) <br> 9. High-Fidelity Audio Output (Achchi Aawaz) <br> 10. Durable and Modern Casing (Mazboot aur Naya Casing) <br> 11. Over-the-Air Updates (Hawa Se Updates) <br> 12. Secure Data Handling (Data Ki Surakshit Dekhbhal) <br><br> Yeh bot gharon, therapy centers, ya corporate brainstorming sessions ke liye perfect hai jahan open communication zaroori hai. <br> Yeh user ki speech mein mood swings se related patterns pehchanne mein help karta hai. <br> Yeh reflective thinking aur self-awareness ko encourage karta hai. <br> Humara manna hai ki AI ka future empathetic hai, aur Talkin Table Bot is charge ko lead kar raha hai. <br> Yeh sach mein modern age ka companion hai, digital aur emotional intelligence ke beech ke gap ko fill karta hai. <br> Experience karo ki true emotional understanding se kitna farak padta hai.",
+
+                book_title: "Aaj Hi Apna Bot Book Karo!",
+                book_price_text: "Rental Price:",
+                book_price: "₹4500",
+                book_unit: "per day",
+                book_description: "Talkin Table Bot ko apne event, office, ya personal use ke liye book karein. Empathetic AI interaction ka future experience karein. Apni booking confirm karne ke liye neeche diya gaya form fill karein.",
+                book_form_name: "Aapka Naam",
+                book_form_email: "Aapka Email",
+                book_form_date: "Booking Ki Tarikh",
+                book_form_submit: "Booking Confirm Karo",
+
+                team_title: "Humare Tech Geniuses",
+                team_role: "Core Developers & Visionaries",
+                team_review_1: "“The Talkin Bot is a masterpiece of engineering and heart. Team ka vision incredible hai.” - A. Sharma",
+                team_review_2: "“Unhone code mein empathy banana manage kiya. Unbelievable innovation.” - Dr. P. Singh",
+                team_review_3: "“Responsiveness aur emotional accuracy market mein bejod hai. Top-tier team!” - K. Verma",
+
+                reviews_title: "Client Testimonials & Reviews",
+                review_list: [
+                    "1. 'Aisa lagta hai jaise table par ek non-judgmental dost hai. Meri anxiety levels sach mein kam ho gayi hain.' - Priya M.",
+                    "2. 'Emotional intelligence itni acchi hai ki hairani hoti hai. Maine itna intuitive AI kabhi nahi dekha.' - Rajesh K.",
+                    "3. 'Remote teams ke liye perfect! Yeh virtual meetings ke dauran overall mood check karne mein help karta hai.' - TechInnovate Inc.",
+                    "4. 'Hindi language support ekdum sahi hai aur tone detection accurate hai.' - Sanjay B.",
+                    "5. 'Ek revolutionary device. Mental well-being ke liye investment worth it hai.' - Dr. Helen W.",
+                    "6. 'Mere bachche iske saath baat karne ki practice karna pasand karte hain. Yeh patient aur encouraging hai.' - Fatima S.",
+                    "7. 'Build quality superb hai, aur design sleek aur subtle hai.' - Arjun T.",
+                    "8. 'Maine ise corporate workshop ke liye book kiya tha. Interaction quality par feedback 100% positive tha.' - Corporate Dynamics",
+                    "9. 'Five stars! Yeh time ke saath mere speech patterns ke hisaab se adapt karta hai.' - Nida H.",
+                    "10. 'Sabse empathetic piece of technology jo maine aaj tak dekha hai.' - Gaurav P."
+                ],
+
+                contact_title: "Contact & Helpline",
+                contact_helpline: "Immediate assistance, booking inquiries, ya technical support ke liye, please contact karein:",
+                contact_person: "Lead Innovator:",
+                contact_button: "Abhi Call Karo"
+            }
+        };
+
+        // --- RENDERING FUNCTIONS ---
+
+        /**
+         * Converts a simple string to a unique element ID.
+         * @param {string} pageName
+         */
+        const toId = (pageName) => `page-${pageName}`;
+
+        /**
+         * Gets the current translation object.
+         */
+        const t = (key) => {
+            return translations[state.currentLang][key];
+        };
+
+        /**
+         * Renders the navigation links with current language translations.
+         */
+        const renderNavigation = () => {
+            document.querySelectorAll('.nav-link').forEach(button => {
+                const page = button.dataset.page;
+                button.textContent = t(`nav_${page}`);
+                button.classList.remove('text-teal-400');
+                if (page === state.currentPage) {
+                    button.classList.add('text-teal-400');
+                }
+            });
+        };
+
+        /**
+         * Renders the main content area based on the current page state.
+         */
+        const renderContent = () => {
+            const contentArea = document.getElementById('content-area');
+            contentArea.innerHTML = '';
+            let contentHTML = '';
+
+            // Use a specific class/utility for the card appearance
+            const cardClass = "bg-white p-6 sm:p-10 rounded-xl container-shadow mb-8 shadow-2xl";
+            const titleClass = "text-3xl sm:text-4xl font-extrabold text-gray-800 mb-6 border-b-4 border-teal-400 pb-2";
+
+            switch (state.currentPage) {
+                case 'about':
+                    contentHTML = `
+                        <div id="${toId('about')}" class="${cardClass}">
+                            <h2 class="${titleClass}">${t('about_title')}</h2>
+                            <div class="text-gray-700 leading-relaxed text-base sm:text-lg whitespace-pre-line border border-gray-200 p-4 rounded-lg bg-gray-50 max-h-[80vh] overflow-y-auto">
+                                ${t('about_content')}
+                                <!-- The content uses explicit <br> tags to ensure it spans the requested ~45 visual lines on a standard screen. -->
+                            </div>
+                        </div>
+                    `;
+                    break;
+
+                case 'booking':
+                    contentHTML = `
+                        <div id="${toId('booking')}" class="${cardClass} max-w-lg mx-auto">
+                            <h2 class="${titleClass} text-center">${t('book_title')}</h2>
+                            
+                            <!-- Price Display -->
+                            <div class="mb-8 text-center bg-teal-50 p-6 rounded-lg border-2 border-teal-400">
+                                <p class="text-xl text-gray-600 mb-2">${t('book_price_text')}</p>
+                                <p class="text-6xl font-extrabold text-teal-600">${t('book_price')}</p>
+                                <p class="text-lg font-semibold text-gray-500">${t('book_unit')}</p>
+                            </div>
+
+                            <p class="text-gray-700 mb-8 text-center">${t('book_description')}</p>
+
+                            <!-- Booking Form (Placeholder) -->
+                            <form class="space-y-4">
+                                <div>
+                                    <label for="name" class="block text-sm font-medium text-gray-700">${t('book_form_name')}</label>
+                                    <input type="text" id="name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-3 focus:border-teal-500 focus:ring-teal-500">
+                                </div>
+                                <div>
+                                    <label for="email" class="block text-sm font-medium text-gray-700">${t('book_form_email')}</label>
+                                    <input type="email" id="email" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-3 focus:border-teal-500 focus:ring-teal-500">
+                                </div>
+                                <div>
+                                    <label for="date" class="block text-sm font-medium text-gray-700">${t('book_form_date')}</label>
+                                    <input type="date" id="date" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-3 focus:border-teal-500 focus:ring-teal-500">
+                                </div>
+                                <button type="submit" class="w-full py-3 px-4 bg-teal-600 hover:bg-teal-700 text-white font-semibold rounded-lg shadow-lg transition duration-150">
+                                    ${t('book_form_submit')}
+                                </button>
+                            </form>
+                        </div>
+                    `;
+                    break;
+
+                case 'team':
+                    contentHTML = `
+                        <div id="${toId('team')}" class="${cardClass}">
+                            <h2 class="${titleClass} text-center">${t('team_title')}</h2>
+                            <p class="text-lg text-gray-600 mb-8 text-center">${t('team_role')}</p>
+
+                            <div class="grid md:grid-cols-3 gap-8 text-center mb-12">
+                                <!-- Team Member 1 -->
+                                <div class="p-6 bg-gray-50 rounded-xl shadow-md border-t-4 border-teal-500">
+                                    <p class="text-4xl font-team text-gray-800 mb-1 leading-none font-extrabold">Suraj</p>
+                                    <p class="text-sm text-gray-500">K. Chaudhary</p>
+                                </div>
+                                <!-- Team Member 2 -->
+                                <div class="p-6 bg-gray-50 rounded-xl shadow-md border-t-4 border-teal-500">
+                                    <p class="text-4xl font-team text-gray-800 mb-1 leading-none font-extrabold">Kavyansh</p>
+                                    <p class="text-sm text-gray-500">Mandal</p>
+                                </div>
+                                <!-- Team Member 3 -->
+                                <div class="p-6 bg-gray-50 rounded-xl shadow-md border-t-4 border-teal-500">
+                                    <p class="text-4xl font-team text-gray-800 mb-1 leading-none font-extrabold">Bhavya</p>
+                                    <p class="text-sm text-gray-500">Choudhary</p>
+                                </div>
+                            </div>
+
+                            <h3 class="text-2xl font-bold text-gray-800 mb-4 border-b pb-2">Trusted Feedback</h3>
+                            <div class="space-y-4">
+                                <p class="italic text-gray-700 p-4 bg-teal-50 rounded-lg border-l-4 border-teal-600">${t('team_review_1')}</p>
+                                <p class="italic text-gray-700 p-4 bg-teal-50 rounded-lg border-l-4 border-teal-600">${t('team_review_2')}</p>
+                                <p class="italic text-gray-700 p-4 bg-teal-50 rounded-lg border-l-4 border-teal-600">${t('team_review_3')}</p>
+                            </div>
+                        </div>
+                    `;
+                    break;
+
+                case 'reviews':
+                    contentHTML = `
+                        <div id="${toId('reviews')}" class="${cardClass}">
+                            <h2 class="${titleClass} text-center">${t('reviews_title')}</h2>
+                            
+                            <div class="grid md:grid-cols-2 gap-6">
+                                ${t('review_list').map((review, index) => `
+                                    <div class="flex items-start space-x-3 p-4 bg-gray-50 rounded-lg shadow-inner">
+                                        <div class="flex-shrink-0 text-teal-500">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-quote"><path d="M3 21c3 0 7-1 7-8V5c0-1.8-2-3-3-3h-2v7H3v7z"/><path d="M14 21c3 0 7-1 7-8V5c0-1.8-2-3-3-3h-2v7H14v7z"/></svg>
+                                        </div>
+                                        <p class="text-gray-700 italic">${review.substring(review.indexOf(' ') + 1)}</p>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                    break;
+
+                case 'contact':
+                    contentHTML = `
+                        <div id="${toId('contact')}" class="${cardClass} max-w-md mx-auto text-center">
+                            <h2 class="${titleClass} text-center">${t('contact_title')}</h2>
+                            
+                            <div class="space-y-6">
+                                <p class="text-lg text-gray-700">${t('contact_helpline')}</p>
+
+                                <!-- Phone Number -->
+                                <div class="bg-teal-100 p-6 rounded-xl border-2 border-teal-400">
+                                    <p class="text-sm font-medium text-gray-600 mb-1">Helpline Number:</p>
+                                    <a href="tel:9990158333" class="text-5xl font-extrabold text-teal-800 hover:text-teal-600 transition block">
+                                        9990158333
+                                    </a>
+                                </div>
+
+                                <!-- Contact Person -->
+                                <div class="pt-4">
+                                    <p class="text-md font-semibold text-gray-800">${t('contact_person')}</p>
+                                    <p class="text-2xl font-bold text-gray-700">Suraj Kumar Chaudhary</p>
+                                </div>
+
+                                <a href="tel:9990158333" class="inline-flex items-center justify-center py-3 px-8 bg-gray-800 hover:bg-gray-700 text-white font-semibold rounded-lg shadow-lg transition duration-150">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone mr-2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 3.08 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                                    ${t('contact_button')}
+                                </a>
+                            </div>
+                        </div>
+                    `;
+                    break;
+            }
+
+            contentArea.innerHTML = contentHTML;
+            // Re-run the Lucide icons process after content is loaded
+            lucide.createIcons();
+        };
+
+        // --- EVENT HANDLERS ---
+
+        /**
+         * Switches the current page.
+         * @param {string} page
+         */
+        const setPage = (page) => {
+            state.currentPage = page;
+            closeMobileMenu();
+            renderNavigation();
+            renderContent();
+        };
+
+        /**
+         * Switches the language and re-renders all text.
+         */
+        const setLanguage = (lang) => {
+            state.currentLang = lang;
+            renderNavigation();
+            renderContent();
+        };
+
+        /**
+         * Toggles the visibility of the mobile menu.
+         */
+        const toggleMobileMenu = () => {
+            const menu = document.getElementById('mobile-menu');
+            if (menu.classList.contains('max-h-0')) {
+                menu.classList.remove('max-h-0');
+                menu.classList.add('max-h-96'); // Adjust height as needed
+            } else {
+                menu.classList.remove('max-h-96');
+                menu.classList.add('max-h-0');
+            }
+        };
+
+        /**
+         * Closes the mobile menu.
+         */
+        const closeMobileMenu = () => {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.remove('max-h-96');
+            menu.classList.add('max-h-0');
+        };
+
+        // --- INITIALIZATION ---
+
+        window.onload = () => {
+            // 1. Initial Render
+            setPage(state.currentPage);
+
+            // 2. Attach Event Listeners for Page Navigation
+            document.querySelectorAll('.nav-link').forEach(button => {
+                button.addEventListener('click', () => {
+                    setPage(button.dataset.page);
+                });
+            });
+
+            // 3. Attach Event Listener for Language Selector
+            const langSelector = document.getElementById('language-selector');
+            langSelector.addEventListener('change', (e) => {
+                setLanguage(e.target.value);
+            });
+
+            // 4. Attach Event Listener for Mobile Menu
+            document.getElementById('mobile-menu-button').addEventListener('click', toggleMobileMenu);
+
+            // 5. Initial language setup (in case of cached state/default)
+            setLanguage(langSelector.value);
+
+            // Hide mobile menu on resize for desktop view
+            window.addEventListener('resize', () => {
+                if (window.innerWidth >= 768) { // md: breakpoint
+                    closeMobileMenu();
+                }
+            });
+        };
+    </script>
+</body>
+</html>
